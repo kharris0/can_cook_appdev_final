@@ -1,0 +1,102 @@
+<div>
+  <div>
+    <h1>
+      List of all favorites
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new favorite
+    </h2>
+
+    <form action="/insert_favorite" method="post">
+      <div>
+        <label for="user_id_box">
+          User
+        </label>
+
+        <input type="text" id="user_id_box" name="query_user_id">
+      </div>
+
+      <div>
+        <label for="ingredient_id_box">
+          Ingredient
+        </label>
+
+        <input type="text" id="ingredient_id_box" name="query_ingredient_id">
+      </div>
+
+      <button>
+        Create favorite
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table>
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          User
+        </th>
+
+        <th>
+          Ingredient
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_favorites.each do |a_favorite| %>
+      <tr>
+        <td>
+          <%= a_favorite.id %>
+        </td>
+
+        <td>
+          <%= a_favorite.user_id %>
+        </td>
+
+        <td>
+          <%= a_favorite.ingredient_id %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(a_favorite.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(a_favorite.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/favorites/<%= a_favorite.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

@@ -1,0 +1,86 @@
+<div>
+  <div>
+    <h1>
+      Ingredient in recipe #<%= @the_ingredient_in_recipe.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/ingredient_in_recipes">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_ingredient_in_recipe/<%= @the_ingredient_in_recipe.id %>">
+          Delete ingredient in recipe
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Ingredient
+      </dt>
+      <dd>
+        <%= @the_ingredient_in_recipe.ingredient_id %>
+      </dd>
+
+      <dt>
+        Recipe
+      </dt>
+      <dd>
+        <%= @the_ingredient_in_recipe.recipe_id %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_ingredient_in_recipe.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_ingredient_in_recipe.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit ingredient in recipe
+    </h2>
+
+    <form action="/modify_ingredient_in_recipe/<%= @the_ingredient_in_recipe.id %>"  method="post" >
+      <div>
+        <label for="ingredient_id_box">
+          Ingredient
+        </label>
+
+        <input type="text" id="ingredient_id_box" name="query_ingredient_id" value="<%= @the_ingredient_in_recipe.ingredient_id %>">
+      </div>
+
+      <div>
+        <label for="recipe_id_box">
+          Recipe
+        </label>
+
+        <input type="text" id="recipe_id_box" name="query_recipe_id" value="<%= @the_ingredient_in_recipe.recipe_id %>">
+      </div>
+
+      <button>
+        Update ingredient in recipe
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

@@ -1,0 +1,71 @@
+<div>
+  <div>
+    <h1>
+      Ingredient #<%= @the_ingredient.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/ingredients">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_ingredient/<%= @the_ingredient.id %>">
+          Delete ingredient
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Name
+      </dt>
+      <dd>
+        <%= @the_ingredient.name %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_ingredient.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_ingredient.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit ingredient
+    </h2>
+
+    <form action="/modify_ingredient/<%= @the_ingredient.id %>"  method="post" >
+      <div>
+        <label for="name_box">
+          Name
+        </label>
+
+        <input type="text" id="name_box" name="query_name" value="<%= @the_ingredient.name %>">
+      </div>
+
+      <button>
+        Update ingredient
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

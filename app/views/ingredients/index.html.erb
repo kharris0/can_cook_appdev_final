@@ -1,0 +1,86 @@
+<div>
+  <div>
+    <h1>
+      List of all ingredients
+    </h1>
+  </div>
+</div>
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add a new ingredient
+    </h2>
+
+    <form action="/insert_ingredient" method="post">
+      <div>
+        <label for="name_box">
+          Name
+        </label>
+
+        <input type="text" id="name_box" name="query_name">
+      </div>
+
+      <button>
+        Create ingredient
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
+<div>
+  <div>
+    <table>
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Name
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @list_of_ingredients.each do |an_ingredient| %>
+      <tr>
+        <td>
+          <%= an_ingredient.id %>
+        </td>
+
+        <td>
+          <%= an_ingredient.name %>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(an_ingredient.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(an_ingredient.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/ingredients/<%= an_ingredient.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

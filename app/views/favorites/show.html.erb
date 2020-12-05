@@ -1,0 +1,86 @@
+<div>
+  <div>
+    <h1>
+      Favorite #<%= @the_favorite.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/favorites">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_favorite/<%= @the_favorite.id %>">
+          Delete favorite
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        User
+      </dt>
+      <dd>
+        <%= @the_favorite.user_id %>
+      </dd>
+
+      <dt>
+        Ingredient
+      </dt>
+      <dd>
+        <%= @the_favorite.ingredient_id %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_favorite.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_favorite.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit favorite
+    </h2>
+
+    <form action="/modify_favorite/<%= @the_favorite.id %>"  method="post" >
+      <div>
+        <label for="user_id_box">
+          User
+        </label>
+
+        <input type="text" id="user_id_box" name="query_user_id" value="<%= @the_favorite.user_id %>">
+      </div>
+
+      <div>
+        <label for="ingredient_id_box">
+          Ingredient
+        </label>
+
+        <input type="text" id="ingredient_id_box" name="query_ingredient_id" value="<%= @the_favorite.ingredient_id %>">
+      </div>
+
+      <button>
+        Update favorite
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>
