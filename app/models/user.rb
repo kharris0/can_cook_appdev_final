@@ -15,4 +15,13 @@ class User < ApplicationRecord
   validates :email, :uniqueness => { :case_sensitive => false }
   validates :email, :presence => true
   has_secure_password
+
+  has_many(:favorites, { :class_name => "Favorite", :foreign_key => "user_id", :dependent => :destroy })
+  has_many(:cookbooks, { :class_name => "Cookbook", :foreign_key => "user_id", :dependent => :destroy })
+  has_many(:authored_recipes, { :class_name => "Recipe", :foreign_key => "author_user_id", :dependent => :nullify })
+
+  has_many(:recipes, { :through => :cookbooks, :source => :recipe })
+  has_many(:ingredients, { :through => :favorites, :source => :ingredient })
+  has_many(:possible_recipes_to_cook, { :through => :ingredients, :source => :recipes })
+  
 end
