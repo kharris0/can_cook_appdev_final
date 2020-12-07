@@ -28,9 +28,9 @@ Rails.application.routes.draw do
   post("/insert_favorite", { :controller => "favorites", :action => "create" })
           
   # READ
-  get("/favorites", { :controller => "favorites", :action => "index" })
+  get("/fridge", { :controller => "favorites", :action => "index" })
   
-  get("/favorites/:path_id", { :controller => "favorites", :action => "show" })
+  get("/fridge/:path_id", { :controller => "favorites", :action => "show" })
   
   # UPDATE
   
@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   # READ
   get("/cookbooks", { :controller => "cookbooks", :action => "index" })
   
-  get("/cookbooks/:path_id", { :controller => "recipes", :action => "show" })
+  get("/cookbooks/:path_id", { :controller => "cookbooks", :action => "show" })
   
   # UPDATE
   
@@ -112,6 +112,13 @@ Rails.application.routes.draw do
   
   # DELETE RECORD
   get("/cancel_user_account", { :controller => "user_authentication", :action => "destroy" })
+
+  #SHOW ALL USERS
+  get("/users", { :controller => "users", :action => "index" })
+
+  #SHOW USER PROFILE
+  get("/users/:path_id", { :controller => "users", :action => "show" }) 
+
 
   # ------------------------------
 

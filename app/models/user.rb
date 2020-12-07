@@ -26,7 +26,7 @@ class User < ApplicationRecord
   
 
   def full_name
-    assembled_name = self.first_name + " " + self.last_name
+    assembled_name = self.first_name.capitalize + " " + self.last_name.capitalize
     return assembled_name
   end
 

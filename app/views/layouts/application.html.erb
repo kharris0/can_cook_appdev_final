@@ -23,6 +23,9 @@
       <li> 
         <a href="/recipes">Recipes</a>
       </li>
+      <li>
+        <a href="/users">Users</a>
+      </li>
       <% if @current_user == nil %>
         <li>
           <a href="/user_sign_up">Sign up</a>
@@ -32,10 +35,10 @@
         </li>
       <% else %>
         <li>
-          <a href="/favorites">My fridge</a> 
+          <a href="/fridge">My fridge</a> 
         </li>
         <li>
-          <a href="/cookbooks">My cookbook</a>
+          <a href="/cookbooks/:path_id %>">My cookbook</a>
         </li>
         <li>
           <a href="/edit_user_profile">Edit <%= @current_user.first_name %></a>

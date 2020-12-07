@@ -1,6 +1,6 @@
 class CookbooksController < ApplicationController
   def index
-    matching_cookbooks = @current_user.cookbooks
+    matching_cookbooks = Cookbook.all
 
     @list_of_cookbooks = matching_cookbooks.order({ :created_at => :desc })
 
@@ -10,7 +10,7 @@ class CookbooksController < ApplicationController
   def show
     the_id = params.fetch("path_id")
 
-    matching_cookbooks = Cookbook.where({ :id => the_id })
+    matching_cookbooks = Cookbook.where({ :user_id => the_id })
 
     @the_cookbook = matching_cookbooks.at(0)
 

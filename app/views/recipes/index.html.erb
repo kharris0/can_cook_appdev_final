@@ -1,7 +1,7 @@
 <div>
   <div>
     <h1>
-      List of all recipes
+      Recipes
     </h1>
   </div>
 </div>
@@ -13,6 +13,8 @@
     <h2>
       Add a new recipe
     </h2>
+
+<%# add form here to include ingredients in recipe and add to "ingredients_in_recipe" %>
 
     <form action="/insert_recipe" method="post">
       <div>
@@ -28,23 +30,30 @@
           Instructions
         </label>
 
-        <input type="text" id="instructions_box" name="query_instructions">
+        <textarea id="instructions_box" name="query_instructions"> 
+        Ingredients:
+
+        Make:
+        
+        
+        **Notes
+        </textarea>
       </div>
 
       <div>
         <label for="total_time_box">
-          Total time
+          Total time (mins)
         </label>
 
-        <input type="time" id="total_time_box" name="query_total_time">
+        <input type="integer" id="total_time_box" name="query_total_time">
       </div>
 
       <div>
         <label for="cooking_time_box">
-          Cooking time
+          Cooking time (mins)
         </label>
 
-        <input type="time" id="cooking_time_box" name="query_cooking_time">
+        <input type="integer" id="cooking_time_box" name="query_cooking_time">
       </div>
 
       <div>
@@ -116,9 +125,14 @@
           <%= a_recipe.image %>
         </td>
 
-        <%# This isn't working! I'm trying to put the author's first and last name, but when I do a_recipe.author.first_name, nothing comes up. %>
+        <%# This should work I'm trying to put the author's first and last name, but when I do a_recipe.author.first_name, nothing comes up. %>
         <td>
-          <%= a_recipe.author.inspect %>
+          <%# <a href="/users/<%= a_recipe.author_user_id %>
+            <%# <%= a_recipe.author.full_name %>
+          <%# </a> %>
+          <a href="/users/<%= a_recipe.author_user_id %>">  
+            <%= a_recipe.author.full_name %> 
+          </a>
 
         </td>
 
