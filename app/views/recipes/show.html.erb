@@ -1,13 +1,28 @@
 <div>
   <div>
     <h1>
-      Recipe #<%= @the_recipe.id %> details
+      <%= @the_recipe.name %>
     </h1>
+
+    <% the_cookbook = @current_user.cookbooks.where({ :recipe_id => @the_recipe.id }).at(0) %>
+
+    <% if the_cookbook == nil %>
+      <form action="/insert_cookbook" method="post">
+        <input type="hidden" name="query_recipe_id" value="<%= @the_recipe.id %>">
+        <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+        <button>Save this recipe to your cookbook</button>
+      </form>
+    <% else %>
+      <a href="/delete_cookbook/<%= the_cookbook.id %>">
+        Remove this recipe from your cookbook
+      </a>
+    <% end %>
+
 
     <div>
       <div>
         <a href="/recipes">
-          Go back
+          All recipes
         </a>
       </div>
 
@@ -19,19 +34,6 @@
     </div>
 
     <dl>
-      <dt>
-        Name
-      </dt>
-      <dd>
-        <%= @the_recipe.name %>
-      </dd>
-
-      <dt>
-        Instructions
-      </dt>
-      <dd>
-        <%= @the_recipe.instructions %>
-      </dd>
 
       <dt>
         Total time
@@ -48,6 +50,13 @@
       </dd>
 
       <dt>
+        Instructions
+      </dt>
+      <dd>
+        <%= @the_recipe.instructions %>
+      </dd>
+
+      <dt>
         Image
       </dt>
       <dd>
@@ -58,7 +67,7 @@
         Author user
       </dt>
       <dd>
-        <%= @the_recipe.author_user_id %>
+        <%= @the_recipe.author %>
       </dd>
 
       <dt>

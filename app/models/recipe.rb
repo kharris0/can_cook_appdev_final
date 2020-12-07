@@ -23,4 +23,12 @@ class Recipe < ApplicationRecord
   has_many(:ingredients, { :through => :ingredients_recipes, :source => :ingredient })
   has_many(:potential_cooks, { :through => :ingredients, :source => :users })
   
+  def author
+    my_author_id = self.author_user_id
+    matching_users = User.where({ :id => my_author_id })
+    the_author = matching_users.at(0)
+    return the_author
+  end
+
+
 end

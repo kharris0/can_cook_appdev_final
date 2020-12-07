@@ -1,7 +1,7 @@
 <div>
   <div>
     <h1>
-      List of all favorites
+      My fridge and pantry
     </h1>
   </div>
 </div>
@@ -11,32 +11,49 @@
 <div>
   <div>
     <h2>
-      Add a new favorite
+      Add food to your fridge and pantry!
     </h2>
 
     <form action="/insert_favorite" method="post">
       <div>
-        <label for="user_id_box">
-          User
-        </label>
-
-        <input type="text" id="user_id_box" name="query_user_id">
+        <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
       </div>
 
       <div>
-        <label for="ingredient_id_box">
-          Ingredient
+        <label for="food_id_box">
+          Type to add foods or choose from the list:
         </label>
+        <input list="ingredients" name="query_ingredient_id" id="ingredient_id_box">
+        <datalist id="ingredients">
+          <option value="Food 1">
+          <option value="Food 2">
+          <option value="Food 3">
+        </datalist>
+        <%# <label for="recipe_submit_button"> Add Recipe </label>
+        <input type="submit" id="recipe_submit_button" name="query_recipe_id"> %>
+        <%# <input type="text" id="recipe_id_box" name="query_recipe_id"> %>
 
-        <input type="text" id="ingredient_id_box" name="query_ingredient_id">
       </div>
-
       <button>
-        Create favorite
+        Add food!
       </button>
     </form>
   </div>
 </div>
+
+<%# <form action="/insert_favorite" method="post">
+  <label for="food">Choose what foods you currently have in your fridge/pantry:</label>
+  <input list="foods" name="food" id="food">
+  <datalist id="foods">
+    <option value="Asparagus">
+    <option value="Broccoli">
+    <option value="Spinach">
+    <option value="Candy">
+    <option value="Butter">
+  </datalist>
+  <input type="submit" id="ingredient_id_box" name="query_ingredient_id">
+</form> %>
+
 
 <hr>
 <div>
@@ -48,19 +65,7 @@
         </th>
 
         <th>
-          User
-        </th>
-
-        <th>
           Ingredient
-        </th>
-
-        <th>
-          Created at
-        </th>
-
-        <th>
-          Updated at
         </th>
 
         <th>
@@ -74,19 +79,9 @@
         </td>
 
         <td>
-          <%= a_favorite.user_id %>
-        </td>
-
-        <td>
           <%= a_favorite.ingredient_id %>
         </td>
 
-        <td>
-          <%= time_ago_in_words(a_favorite.created_at) %> ago
-        </td>
-        <td>
-          <%= time_ago_in_words(a_favorite.updated_at) %> ago
-        </td>
 
         <td>
           <a href="/favorites/<%= a_favorite.id %>">

@@ -44,7 +44,7 @@
           Cooking time
         </label>
 
-        <input type="text" id="cooking_time_box" name="query_cooking_time">
+        <input type="time" id="cooking_time_box" name="query_cooking_time">
       </div>
 
       <div>
@@ -57,7 +57,7 @@
 
       <div>
         <label for="author_user_id_box">
-          Author user
+          Author
         </label>
 
         <input type="text" id="author_user_id_box" name="query_author_user_id">
@@ -76,15 +76,7 @@
     <table>
       <tr>
         <th>
-          ID
-        </th>
-
-        <th>
           Name
-        </th>
-
-        <th>
-          Instructions
         </th>
 
         <th>
@@ -102,15 +94,6 @@
         <th>
           Author user
         </th>
-
-        <th>
-          Created at
-        </th>
-
-        <th>
-          Updated at
-        </th>
-
         <th>
         </th>
       </tr>
@@ -118,15 +101,7 @@
       <% @list_of_recipes.each do |a_recipe| %>
       <tr>
         <td>
-          <%= a_recipe.id %>
-        </td>
-
-        <td>
           <%= a_recipe.name %>
-        </td>
-
-        <td>
-          <%= a_recipe.instructions %>
         </td>
 
         <td>
@@ -141,16 +116,12 @@
           <%= a_recipe.image %>
         </td>
 
+        <%# This isn't working! I'm trying to put the author's first and last name, but when I do a_recipe.author.first_name, nothing comes up. %>
         <td>
-          <%= a_recipe.author_user_id %>
+          <%= a_recipe.author.inspect %>
+
         </td>
 
-        <td>
-          <%= time_ago_in_words(a_recipe.created_at) %> ago
-        </td>
-        <td>
-          <%= time_ago_in_words(a_recipe.updated_at) %> ago
-        </td>
 
         <td>
           <a href="/recipes/<%= a_recipe.id %>">

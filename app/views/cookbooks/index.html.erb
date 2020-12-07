@@ -1,40 +1,8 @@
 <div>
   <div>
     <h1>
-      List of all cookbooks
+      <%= @current_user.first_name.capitalize %>'s Cookbook
     </h1>
-  </div>
-</div>
-
-<hr>
-
-<div>
-  <div>
-    <h2>
-      Add a new cookbook
-    </h2>
-
-    <form action="/insert_cookbook" method="post">
-      <div>
-        <label for="user_id_box">
-          User
-        </label>
-
-        <input type="text" id="user_id_box" name="query_user_id">
-      </div>
-
-      <div>
-        <label for="recipe_id_box">
-          Recipe
-        </label>
-
-        <input type="text" id="recipe_id_box" name="query_recipe_id">
-      </div>
-
-      <button>
-        Create cookbook
-      </button>
-    </form>
   </div>
 </div>
 
@@ -43,24 +11,9 @@
   <div>
     <table>
       <tr>
-        <th>
-          ID
-        </th>
-
-        <th>
-          User
-        </th>
 
         <th>
           Recipe
-        </th>
-
-        <th>
-          Created at
-        </th>
-
-        <th>
-          Updated at
         </th>
 
         <th>
@@ -69,27 +22,13 @@
 
       <% @list_of_cookbooks.each do |a_cookbook| %>
       <tr>
+
         <td>
-          <%= a_cookbook.id %>
+          <%= a_cookbook.recipe.inspect %>
         </td>
 
         <td>
-          <%= a_cookbook.user_id %>
-        </td>
-
-        <td>
-          <%= a_cookbook.recipe_id %>
-        </td>
-
-        <td>
-          <%= time_ago_in_words(a_cookbook.created_at) %> ago
-        </td>
-        <td>
-          <%= time_ago_in_words(a_cookbook.updated_at) %> ago
-        </td>
-
-        <td>
-          <a href="/cookbooks/<%= a_cookbook.id %>">
+          <a href="/cookbooks/<%= a_cookbook.recipe_id %>">
             Show details
           </a>
         </td>
@@ -98,5 +37,45 @@
     </table>
   </div>
 </div>
+
+
+<hr>
+
+<div>
+  <div>
+    <h2>
+      Add another recipe to your cookbook
+    </h2>
+
+    <form action="/insert_cookbook" method="post">
+      <div>
+        <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+      </div>
+
+      <div>
+        <label for="recipe_id_box">
+          Choose your recipe from the list:
+        </label>
+        <input list="recipes" name="query_recipe_id" id="recipe">
+        <datalist id="recipes">
+          <option value="Recipe 1">
+          <option value="Recipe 2">
+          <option value="Recipe 3">
+        </datalist>
+        <%# <label for="recipe_submit_button"> Add Recipe </label>
+        <input type="submit" id="recipe_submit_button" name="query_recipe_id"> %>
+
+        <%# <input type="text" id="recipe_id_box" name="query_recipe_id"> %>
+
+
+      </div>
+
+      <button>
+        Add recipe
+      </button>
+    </form>
+  </div>
+</div>
+
 
 <hr>

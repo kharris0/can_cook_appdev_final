@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   # READ
   get("/cookbooks", { :controller => "cookbooks", :action => "index" })
   
-  get("/cookbooks/:path_id", { :controller => "cookbooks", :action => "show" })
+  get("/cookbooks/:path_id", { :controller => "recipes", :action => "show" })
   
   # UPDATE
   

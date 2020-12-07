@@ -1,6 +1,6 @@
 class CookbooksController < ApplicationController
   def index
-    matching_cookbooks = Cookbook.all
+    matching_cookbooks = @current_user.cookbooks
 
     @list_of_cookbooks = matching_cookbooks.order({ :created_at => :desc })
 
