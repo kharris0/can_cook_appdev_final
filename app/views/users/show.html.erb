@@ -19,11 +19,11 @@
         </th>
       </tr>
 
-      <% @the_user.cookbooks.each do |a_cookbook| %>
+      <% @the_user.cookbooks.each do |recipe_in_cookbook| %>
       <tr>
         <td>
-          <a href="/recipes/<%= a_cookbook.recipe_id %>"> 
-            <%= a_cookbook.name %> 
+          <a href="/recipes/<%= recipe_in_cookbook.recipe_id %>"> 
+            <%= recipe_in_cookbook.recipe_id %> 
           </a>
         </td>
 
@@ -32,8 +32,8 @@
           <%# <a href="/users/<%= a_recipe.author_user_id %>
             <%# <%= a_recipe.author.full_name %>
           <%# </a> %>
-          <a href="/users/<%= a_cookbook.recipe.author_user_id %>">  
-            <%= a_cookbook.recipe.author.full_name %> 
+          <a href="/users/<%= recipe_in_cookbook.recipe.author_user_id %>">  
+            <%= recipe_in_cookbook.recipe.author.full_name %> 
           </a>
         </td>
       </tr>

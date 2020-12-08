@@ -15,7 +15,12 @@ class CookbooksController < ApplicationController
 
     @the_cookbook = @matching_cookbooks.at(0)
 
-    render({ :template => "cookbooks/show.html.erb" })
+    if @the_cookbook == nil
+      render({ :template => "cookbooks/error.html.erb" })
+    else 
+      render({ :template => "cookbooks/show.html.erb" })
+    end
+    
   end
 
   def create

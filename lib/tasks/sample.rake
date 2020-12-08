@@ -58,7 +58,7 @@ task(:sample_data => :environment) do
 
   60.times do |count|
     favorite = Favorite.new
-    favorite.user_id = favorite_user_id.at(count)
+    favorite.user_id = favorite_user_id.sample
     favorite.ingredient_id = favorite_ingredient_id.at(count)
     favorite.save
   end
@@ -69,14 +69,27 @@ task(:sample_data => :environment) do
   cookbook_recipe_id = Recipe.all.pluck(:id)
   cookbook_user_id = User.all.pluck(:id)
 
-  14.times do |count|
+  45.times do |count|
     cookbook = Cookbook.new
-    cookbook.user_id = cookbook_user_id.at(count)
-    cookbook.recipe_id = cookbook_recipe_id.at(count)
+    cookbook.user_id = cookbook_user_id.sample
+    cookbook.recipe_id = cookbook_recipe_id.sample
     cookbook.save
   end
 
   p "Added #{Cookbook.count} Cookbooks"
+
+    45.times do |count|
+    cookbook = Cookbook.new
+    cookbook.user_id = cookbook_user_id.sample
+    cookbook.recipe_id = cookbook_recipe_id.sample
+    cookbook.save
+  end
+
+  p "Added #{Cookbook.count} Cookbooks"
+
+
+
+
 
 
 
