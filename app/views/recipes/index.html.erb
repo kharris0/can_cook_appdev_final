@@ -85,6 +85,9 @@
     <table>
       <tr>
         <th>
+        </th>
+
+        <th>
           Name
         </th>
 
@@ -109,6 +112,22 @@
 
       <% @list_of_recipes.each do |a_recipe| %>
       <tr>
+        <td>
+          <% the_cookbook = @current_user.cookbooks.where({ :recipe_id => a_recipe.id }).at(0) %>
+            <% if the_cookbook == nil %>
+              <form action="/insert_cookbook" method="post">
+                <input type="hidden" name="query_recipe_id" value="<%= a_recipe.id %>">
+                <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                <button>Save this recipe to your cookbook</button>
+              </form>
+            <% else %>
+              <a href="/delete_cookbook/<%= the_cookbook.id %>">
+                Remove this recipe from your cookbook
+              </a>
+            <% end %>
+        </td>
+
+
         <td>
           <%= a_recipe.name %>
         </td>

@@ -7,6 +7,41 @@
 </div>
 
 <hr>
+<div>
+  <div>
+    <table>
+      <tr>
+        <th>
+          Name
+        </th>
+
+        <th>
+          Total authored recipes
+        </th>
+
+        <th>
+          Total recipes in cookbook
+        </th>
+
+      <% @list_of_users.each do |a_user| %>
+      <tr>
+        <td>
+          <a href="/users/<%= a_user.id %>">
+            <%= a_user.full_name %>
+          </a>
+        </td>
+
+        <td>
+          <%= a_user.cookbooks.count %>
+        </td>
+
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>
 
 
 <a href="/user_sign_up">Sign up</a>

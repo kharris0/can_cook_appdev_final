@@ -38,7 +38,7 @@
           <a href="/fridge">My fridge</a> 
         </li>
         <li>
-          <a href="/cookbooks/:path_id %>">My cookbook</a>
+          <a href="/cookbooks/<%= @current_user.id %>">My cookbook</a>
         </li>
         <li>
           <a href="/edit_user_profile">Edit <%= @current_user.first_name %></a>

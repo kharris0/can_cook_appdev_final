@@ -1,1 +1,103 @@
-<h1> Individual User Page </h1> 
+<h1> <%= @the_user.full_name %> </h1>
+
+
+
+<h1> <%= @the_user.first_name %>'s Cookbook</h1> 
+<hr>
+<div>
+  <div>
+    <table>
+      <tr>
+        <th>
+          Recipe
+        </th>
+
+        <th>
+          Author
+        </th>
+        <th>
+        </th>
+      </tr>
+
+      <% @the_user.cookbooks.each do |a_cookbook| %>
+      <tr>
+        <td>
+          <a href="/recipes/<%= a_cookbook.recipe_id %>"> 
+            <%= a_cookbook.name %> 
+          </a>
+        </td>
+
+        <%# This should work I'm trying to put the author's first and last name, but when I do a_recipe.author.first_name, nothing comes up. %>
+        <td>
+          <%# <a href="/users/<%= a_recipe.author_user_id %>
+            <%# <%= a_recipe.author.full_name %>
+          <%# </a> %>
+          <a href="/users/<%= a_cookbook.recipe.author_user_id %>">  
+            <%= a_cookbook.recipe.author.full_name %> 
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+
+
+
+<h1> Recipes written by <%= @the_user.first_name %> </h1> 
+<hr>
+<div>
+  <div>
+    <table>
+      <tr>
+        <th>
+          Recipe
+        </th>
+
+        <th>
+          Total time
+        </th>
+
+        <th>
+          Cooking time
+        </th>
+
+        <th>
+          Image
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @the_user.authored_recipes.each do |a_recipe| %>
+      <tr>
+        <td>
+          <%= a_recipe.name %>
+        </td>
+
+        <td>
+          <%= a_recipe.total_time %>
+        </td>
+
+        <td>
+          <%= a_recipe.cooking_time %>
+        </td>
+
+        <td>
+          <%= a_recipe.image %>
+        </td>
+
+        <td>
+          <a href="/recipes/<%= a_recipe.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<hr>

@@ -10,78 +10,70 @@
           Go back
         </a>
       </div>
-
-      <div>
-        <a href="/delete_cookbook/<%= @the_cookbook.id %>">
-          Delete cookbook
-        </a>
-      </div>
     </div>
 
-    <dl>
-      <dt>
-        User
-      </dt>
-      <dd>
-        <%= @the_cookbook.user_id %>
-      </dd>
-
-      <dt>
-        Recipe
-      </dt>
-      <dd>
-        <%= @the_cookbook.recipe_id %>
-      </dd>
-
-      <dt>
-        Created at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_cookbook.created_at) %> ago
-      </dd>
-
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_cookbook.updated_at) %> ago
-      </dd>
-    </dl>
-  </div>
-</div>
-
-<hr>
-
-
+    <hr>
 <div>
   <div>
-    <h2>
-      Edit cookbook
-    </h2>
-
-    <form action="/modify_cookbook/<%= @the_cookbook.id %>"  method="post" >
-      <div>
-        <label for="user_id_box">
-          User
-        </label>
-
-        <input type="hidden" id="user_id_box" name="query_user_id" value="<%= @the_cookbook.user_id %>">
-        
-
-      </div>
-
-      <div>
-        <label for="recipe_id_box">
+    <table>
+      <tr>
+        <th>
           Recipe
-        </label>
+        </th>
 
-        <input type="text" id="recipe_id_box" name="query_recipe_id" value="<%= @the_cookbook.recipe_id %>">
-      </div>
+        <th>
+          Total time
+        </th>
 
-      <button>
-        Update cookbook
-      </button>
-    </form>
+        <th>
+          Cooking time
+        </th>
+
+        <th>
+          Image
+        </th>
+
+        <th>
+          Author
+        </th>
+        <th>
+        </th>
+      </tr>
+
+      <% @matching_cookbooks.each do |a_cookbook| %>
+      <tr>
+        <td>
+          <%= a_cookbook.recipe.name %>
+        </td>
+
+        <td>
+          <%= a_cookbook.recipe.total_time %>
+        </td>
+
+        <td>
+          <%= a_cookbook.recipe.cooking_time %>
+        </td>
+
+        <td>
+          <%= a_cookbook.recipe.image %>
+        </td>
+
+        <td>
+          <a href="/users/<%= a_cookbook.recipe.author_user_id %>">  
+            <%= a_cookbook.recipe.author.full_name %> 
+          </a>
+
+        </td>
+
+
+        <td>
+          <a href="/recipes/<%= a_cookbook.recipe_id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
   </div>
 </div>
 
