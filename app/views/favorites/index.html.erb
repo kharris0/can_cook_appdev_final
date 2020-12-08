@@ -75,17 +75,17 @@
       <% @list_of_favorites.each do |a_favorite| %>
       <tr>
         <td>
-          <%= a_favorite.id %>
+          <%= a_favorite.ingredient.id %>
         </td>
 
         <td>
-          <%= a_favorite.ingredient_id %>
+          <%= a_favorite.ingredient.name.capitalize %>
         </td>
 
 
         <td>
-          <a href="/favorites/<%= a_favorite.id %>">
-            Show details
+          <a href="/ingredients/<%= a_favorite.ingredient_id %>">
+            See what you can cook with <%= a_favorite.ingredient.name %>
           </a>
         </td>
       </tr>

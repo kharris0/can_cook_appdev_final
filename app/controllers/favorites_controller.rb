@@ -10,7 +10,7 @@ class FavoritesController < ApplicationController
   def show
     the_id = params.fetch("path_id")
 
-    matching_favorites = Favorite.where({ :id => the_id })
+    matching_favorites = Favorite.where({ :user_id => the_id })
 
     @the_favorite = matching_favorites.at(0)
 
