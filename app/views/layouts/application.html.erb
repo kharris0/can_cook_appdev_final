@@ -23,16 +23,15 @@
       <li> 
         <a href="/recipes">Recipes</a>
       </li>
-      <li>
-        <a href="/users">Users</a>
-      </li>
+
       <% if @current_user == nil %>
-        <li>
-          <a href="/user_sign_up">Sign up</a>
-        </li>
         <li>
           <a href="/user_sign_in">Sign in</a>
         </li>
+        <li>
+          <a href="/user_sign_up">Sign up</a>
+        </li>
+
       <% else %>
         <li>
           <a href="/fridge">My fridge</a> 
@@ -41,13 +40,20 @@
           <a href="/cookbooks/<%= @current_user.id %>">My cookbook</a>
         </li>
         <li>
-          <a href="/edit_user_profile">Edit <%= @current_user.first_name %></a>
+          <a href="/users">Users</a>
+        </li>
+        <li>
+          <a href="/edit_user_profile">Edit <%= @current_user.first_name.capitalize %>'s profile</a>
         </li>
         <li>
           <a href="/user_sign_out">Sign out</a> 
         </li>
       <% end %>
     </ul>
+    <%= notice %>
+    <%= alert %>
+
+
     <%= yield %>
   </body>
 </html>

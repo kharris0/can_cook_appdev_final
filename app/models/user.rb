@@ -4,6 +4,7 @@
 #
 #  id                     :integer          not null, primary key
 #  authored_recipes_count :integer
+#  bio                    :string
 #  email                  :string
 #  first_name             :string
 #  last_name              :string

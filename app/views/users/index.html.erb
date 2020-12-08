@@ -32,8 +32,14 @@
         </td>
 
         <td>
+          <%= a_user.authored_recipes.count %>
+        </td>
+
+        <td>
           <%= a_user.cookbooks.count %>
         </td>
+
+
 
       </tr>
       <% end %>
@@ -42,8 +48,3 @@
 </div>
 
 <hr>
-
-
-<a href="/user_sign_up">Sign up</a>
-<a href="/user_sign_in">Sign in</a>
-

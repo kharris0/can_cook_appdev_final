@@ -3,80 +3,74 @@
     <h1>
       <%= @the_recipe.name %>
     </h1>
-
-    <% the_cookbook = @current_user.cookbooks.where({ :recipe_id => @the_recipe.id }).at(0) %>
-
-    <% if the_cookbook == nil %>
-      <form action="/insert_cookbook" method="post">
-        <input type="hidden" name="query_recipe_id" value="<%= @the_recipe.id %>">
-        <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
-        <button>Save this recipe to your cookbook</button>
-      </form>
-    <% else %>
-      <a href="/delete_cookbook/<%= the_cookbook.id %>">
-        Remove this recipe from your cookbook
-      </a>
+    <% if @current_user == nil %>
+    <%else%>
+      <td>
+        <% the_cookbook = @current_user.cookbooks.where({ :recipe_id => @the_recipe.id }).at(0) %>
+        <% if the_cookbook == nil %>
+          <form action="/insert_cookbook" method="post">
+            <input type="hidden" name="query_recipe_id" value="<%= @the_recipe.id %>">
+            <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+            <button>Save this recipe to your cookbook</button>
+          </form>
+        <% else %>
+          <a href="/delete_cookbook/<%= the_cookbook.id %>">
+            Remove this recipe from your cookbook
+          </a>
+        <% end %>
+      </td>
     <% end %>
-
-
     <div>
       <div>
         <a href="/recipes">
           All recipes
         </a>
       </div>
-
       <div>
         <a href="/delete_recipe/<%= @the_recipe.id %>">
           Delete recipe
         </a>
       </div>
     </div>
-
     <dl>
-
-      <dt>
-        Total time
-      </dt>
-      <dd>
-        <%= @the_recipe.total_time %>
-      </dd>
-
-      <dt>
-        Cooking time
-      </dt>
-      <dd>
-        <%= @the_recipe.cooking_time %>
-      </dd>
-
-      <dt>
-        Instructions
-      </dt>
-      <dd>
-        <%= @the_recipe.instructions %>
-      </dd>
-
       <dt>
         Image
       </dt>
       <dd>
         <%= @the_recipe.image %>
       </dd>
-
       <dt>
-        Author user
+        Recipe author
       </dt>
       <dd>
-        <%= @the_recipe.author %>
+        <a href="/users/<%= @the_recipe.author_user_id %>">
+          <%= @the_recipe.author.full_name %>
+        </a>
       </dd>
-
+      <dt>
+        Total time
+      </dt>
+      <dd>
+        <%= @the_recipe.total_time %>
+      </dd>
+      <dt>
+        Cooking time
+      </dt>
+      <dd>
+        <%= @the_recipe.cooking_time %> mins
+      </dd>
+      <dt>
+        Instructions
+      </dt>
+      <dd>
+        <%= @the_recipe.instructions %>
+      </dd>
       <dt>
         Created at
       </dt>
       <dd>
         <%= time_ago_in_words(@the_recipe.created_at) %> ago
       </dd>
-
       <dt>
         Updated at
       </dt>
@@ -86,70 +80,79 @@
     </dl>
   </div>
 </div>
-
 <hr>
-
-
 <div>
-  <div>
-    <h2>
-      Edit recipe
-    </h2>
-
-    <form action="/modify_recipe/<%= @the_recipe.id %>"  method="post" >
+  <% if @current_user != nil %>
+    <% if @the_recipe.author.id == @current_user.id %>
       <div>
-        <label for="name_box">
-          Name
-        </label>
+        <form action="/insert_ingredient_in_recipe" method="post">
+          <div>
+            <input type="hidden" name="query_recipe_id" value="<%= @the_recipe.id %>">
+          </div>
+          <div>
+            <label for="ingredient_id_box">
+              Type to add ingredients or choose from the list:
+            </label>
+            <input list="ingredients" name="query_ingredient_id" id="ingredient_in_recipe_id_box">
+            <datalist id="ingredients">
+            <% Ingredient.all.order({ :name => :asc }).each do |a_ingredient| %>
+              <option value="<%= a_ingredient.id %>">
+                <%= a_ingredient.name %>
+              </option>
+              <% end %>
+              </datalist>
+              <button>
+                Add ingredient
+              </button>
+            </form>
 
-        <input type="text" id="name_box" name="query_name" value="<%= @the_recipe.name %>">
-      </div>
-
-      <div>
-        <label for="instructions_box">
-          Instructions
-        </label>
-
-        <input type="text" id="instructions_box" name="query_instructions" value="<%= @the_recipe.instructions %>">
-      </div>
-
-      <div>
-        <label for="total_time_box">
-          Total time
-        </label>
-
-        <input type="time" id="total_time_box" name="query_total_time" value="<%= @the_recipe.total_time %>">
-      </div>
-
-      <div>
-        <label for="cooking_time_box">
-          Cooking time
-        </label>
-
-        <input type="text" id="cooking_time_box" name="query_cooking_time" value="<%= @the_recipe.cooking_time %>">
-      </div>
-
-      <div>
-        <label for="image_box">
-          Image
-        </label>
-
-        <input type="text" id="image_box" name="query_image" value="<%= @the_recipe.image %>">
-      </div>
-
-      <div>
-        <label for="author_user_id_box">
-          Author user
-        </label>
-
-        <input type="text" id="author_user_id_box" name="query_author_user_id" value="<%= @the_recipe.author_user_id %>">
-      </div>
-
-      <button>
-        Update recipe
-      </button>
-    </form>
-  </div>
-</div>
-
-<hr>
+          </div>
+          <h2>
+            Edit recipe
+          </h2>
+          <form action="/modify_recipe/<%= @the_recipe.id %>"  method="post" >
+            <div>
+              <label for="name_box">
+                Name
+              </label>
+              <input type="text" id="name_box" name="query_name" value="<%= @the_recipe.name %>">
+            </div>
+            <div>
+              <label for="image_box">
+                Image
+              </label>
+              <input type="text" id="image_box" name="query_image" value="<%= @the_recipe.image %>">
+            </div>
+            <div>
+              <label for="instructions_box">
+                Instructions
+              </label>
+              <input type="text" id="instructions_box" name="query_instructions" value="<%= @the_recipe.instructions %>">
+            </div>
+            <div>
+              <label for="total_time_box">
+                Total time
+              </label>
+              <input type="time" id="total_time_box" name="query_total_time" value="<%= @the_recipe.total_time %>">
+            </div>
+            <div>
+              <label for="cooking_time_box">
+                Cooking time
+              </label>
+              <input type="text" id="cooking_time_box" name="query_cooking_time" value="<%= @the_recipe.cooking_time %>">
+            </div>
+            <div>
+              <label for="author_user_id_box">
+                Author user
+              </label>
+              <input type="text" id="author_user_id_box" name="query_author_user_id" value="<%= @the_recipe.author_user_id %>">
+            </div>
+            <button>
+              Update recipe
+            </button>
+          </form>
+        </div>
+    <% end %>
+        <% end %>
+    <div>
+      <hr>

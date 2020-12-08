@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2020_12_05_211043) do
   create_table "recipes", force: :cascade do |t|
     t.string "name"
     t.string "instructions"
-    t.time "total_time"
+    t.string "total_time"
     t.string "cooking_time"
     t.string "image"
     t.integer "author_user_id"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2020_12_05_211043) do
     t.string "password_digest"
     t.string "first_name"
     t.string "last_name"
+    t.string "bio"
     t.integer "authored_recipes_count"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -1,51 +1,52 @@
 <h1> <%= @the_user.full_name %> </h1>
-
-
-
-<h1> <%= @the_user.first_name %>'s Cookbook</h1> 
+<h1> <%= @the_user.first_name.capitalize %>'s Cookbook</h1>
 <hr>
 <div>
   <div>
     <table>
       <tr>
         <th>
+        </th>
+        <th>
           Recipe
         </th>
-
         <th>
           Author
         </th>
         <th>
         </th>
       </tr>
-
       <% @the_user.cookbooks.each do |recipe_in_cookbook| %>
-      <tr>
-        <td>
-          <a href="/recipes/<%= recipe_in_cookbook.recipe_id %>"> 
-            <%= recipe_in_cookbook.recipe_id %> 
-          </a>
-        </td>
-
-        <%# This should work I'm trying to put the author's first and last name, but when I do a_recipe.author.first_name, nothing comes up. %>
-        <td>
-          <%# <a href="/users/<%= a_recipe.author_user_id %>
-            <%# <%= a_recipe.author.full_name %>
-          <%# </a> %>
-          <a href="/users/<%= recipe_in_cookbook.recipe.author_user_id %>">  
-            <%= recipe_in_cookbook.recipe.author.full_name %> 
-          </a>
-        </td>
-      </tr>
+        <tr>
+          <td>
+            <% if recipe_in_cookbook != nil %>
+              <a href="/delete_cookbook/<%= recipe_in_cookbook.id %>"> 
+                Remove this recipe from your cookbook
+              </a>
+            <% else %>
+              <form action="/insert_cookbook/<%= recipe_in_cookbook.id %>" method="post">
+                <input type="hidden" name="query_recipe_id" value="<%= recipe_in_cookbook.recipe_id %>">
+                <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                <button> Save this recipe to your cookbook </button>
+              </form>
+            <% end %>
+          </td>
+          <td>
+            <a href="/recipes/<%= recipe_in_cookbook.recipe_id %>">
+              <%= recipe_in_cookbook.recipe.name %>
+            </a>
+          </td>
+          <td>
+            <a href="/users/<%= recipe_in_cookbook.recipe.author_user_id %>">
+              <%= recipe_in_cookbook.recipe.author.full_name %>
+            </a>
+          </td>
+        </tr>
       <% end %>
     </table>
   </div>
 </div>
-
-
-
-
-<h1> Recipes written by <%= @the_user.first_name %> </h1> 
+<h1> Recipes written by <%= @the_user.first_name.capitalize %> </h1>
 <hr>
 <div>
   <div>
@@ -54,50 +55,40 @@
         <th>
           Recipe
         </th>
-
         <th>
           Total time
         </th>
-
         <th>
           Cooking time
         </th>
-
         <th>
           Image
         </th>
-
         <th>
         </th>
       </tr>
-
       <% @the_user.authored_recipes.each do |a_recipe| %>
-      <tr>
-        <td>
-          <%= a_recipe.name %>
-        </td>
-
-        <td>
-          <%= a_recipe.total_time %>
-        </td>
-
-        <td>
-          <%= a_recipe.cooking_time %>
-        </td>
-
-        <td>
-          <%= a_recipe.image %>
-        </td>
-
-        <td>
-          <a href="/recipes/<%= a_recipe.id %>">
-            Show details
-          </a>
-        </td>
-      </tr>
+        <tr>
+          <td>
+            <%= a_recipe.name %>
+          </td>
+          <td>
+            <%= a_recipe.total_time %>
+          </td>
+          <td>
+            <%= a_recipe.cooking_time %>
+          </td>
+          <td>
+            <%= a_recipe.image %>
+          </td>
+          <td>
+            <a href="/recipes/<%= a_recipe.id %>">
+              Recipe details
+            </a>
+          </td>
+        </tr>
       <% end %>
     </table>
   </div>
 </div>
-
 <hr>

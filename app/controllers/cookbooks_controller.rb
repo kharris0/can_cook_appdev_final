@@ -20,7 +20,7 @@ class CookbooksController < ApplicationController
     else 
       render({ :template => "cookbooks/show.html.erb" })
     end
-    
+
   end
 
   def create
@@ -30,9 +30,9 @@ class CookbooksController < ApplicationController
 
     if the_cookbook.valid?
       the_cookbook.save
-      redirect_to("/cookbooks/<%= the_cookbook.user_id %>", { :notice => "Cookbook created successfully." })
+      redirect_to("/users/" + the_cookbook.user_id.to_s, { :notice => "Recipe was successfully added to your cookbook." })
     else
-      redirect_to("/recipes", { :notice => "Cookbook failed to create successfully." })
+      redirect_to("/users/"+ the_cookbook.user_id.to_s, { :notice => "Recipe was not successfully added to your cookbook." })
     end
   end
 
@@ -45,9 +45,9 @@ class CookbooksController < ApplicationController
 
     if @the_cookbook.valid?
       @the_cookbook.save
-      redirect_to("/cookbooks/:path_id", { :notice => "Cookbook updated successfully."} )
+      redirect_to("/users/" + @the_cookbook.user_id.to_s, { :notice => "Recipe updated successfully."} )
     else
-      redirect_to("/cookbooks/:path_id", { :alert => "Cookbook failed to update successfully." })
+      redirect_to("/users/" + @the_cookbook.user_id.to_s, { :alert => "Recipe in cookbook failed to update successfully." })
     end
   end
 
@@ -57,6 +57,6 @@ class CookbooksController < ApplicationController
 
     @the_cookbook.destroy
 
-    redirect_to("/cookbooks", { :notice => "Cookbook deleted successfully."} )
+    redirect_to("/users/" + @the_cookbook.user_id.to_s, { :notice => "Recipe successfully removed from your cookbook."} )
   end
 end

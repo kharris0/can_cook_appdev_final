@@ -1,86 +1,90 @@
 <div>
   <div>
     <h1>
-      Favorite #<%= @the_favorite.id %> details
+      What to do with the <%= @the_favorite.ingredient.name.capitalize %> in your fridge...
     </h1>
-
     <div>
       <div>
         <a href="/ingredients">
           All Foods
         </a>
       </div>
-
       <div>
         <a href="/delete_favorite/<%= @the_favorite.id %>">
           Remove from fridge
         </a>
       </div>
     </div>
-
     <dl>
       <dt>
-        User
-      </dt>
-      <dd>
-        <%= @the_favorite.user_id %>
-      </dd>
-
-      <dt>
-        Ingredient
-      </dt>
-      <dd>
-        <%= @the_favorite.ingredient_id %>
-      </dd>
-
-      <dt>
-        Created at
+        Added to fridge
       </dt>
       <dd>
         <%= time_ago_in_words(@the_favorite.created_at) %> ago
       </dd>
-
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_favorite.updated_at) %> ago
-      </dd>
     </dl>
   </div>
 </div>
-
 <hr>
-
-
+<h1> Recipes you can make with an avocado </h1>
+<hr>
 <div>
   <div>
-    <h2>
-      Edit favorite
-    </h2>
-
-    <form action="/modify_favorite/<%= @the_favorite.id %>"  method="post" >
-      <div>
-        <label for="user_id_box">
-          User
-        </label>
-
-        <input type="text" id="user_id_box" name="query_user_id" value="<%= @the_favorite.user_id %>">
-      </div>
-
-      <div>
-        <label for="ingredient_id_box">
-          Ingredient
-        </label>
-
-        <input type="text" id="ingredient_id_box" name="query_ingredient_id" value="<%= @the_favorite.ingredient_id %>">
-      </div>
-
-      <button>
-        Update favorite
-      </button>
-    </form>
-  </div>
+    <table>
+      <tr>
+        <th>
+          Recipe
+        </th>
+        <th>
+          Image
+        </th>
+        <th>
+          Total time
+        </th>
+        <th>
+          Cooking time
+        </th>
+        <th>
+        </th>
+      </tr>
+      <% @the_favorite.ingredient.recipes do |a_recipe| %>
+        <% if @current_user == nil %>
+        <%else%>
+          <td>
+            <% the_cookbook = @current_user.cookbooks.where({ :recipe_id => a_recipe.id }).at(0) %>
+            <% if the_cookbook == nil %>
+              <form action="/insert_cookbook" method="post">
+                <input type="hidden" name="query_recipe_id" value="<%= a_recipe.id %>">
+                <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                <button>Save this recipe to your cookbook</button>
+              </form>
+            <% else %>
+              <a href="/delete_cookbook/<%= the_cookbook.id %>">
+                Remove this recipe from your cookbook
+              </a>
+            <% end %>
+          </td>
+        <% end %>
+        <td>
+          <%= a_recipe.name %>
+        </td>
+        <td>
+          <%= a_recipe.image %>
+        </td>
+        <td>
+          <%= a_recipe.total_time %>
+        </td>
+        <td>
+          <%= a_recipe.cooking_time %>
+        </td>
+        <td>
+          <a href="/recipes/<%= a_recipe.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 </div>
-
+</div>
 <hr>

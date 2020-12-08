@@ -3,7 +3,6 @@
     <h1>
       <%= @the_cookbook.user.first_name.capitalize %>'s Cookbook
     </h1>
-
     <div>
       <div>
         <a href="/users">
@@ -11,70 +10,71 @@
         </a>
       </div>
     </div>
-
     <hr>
-<div>
-  <div>
-    <table>
-      <tr>
-        <th>
-          Recipe
-        </th>
-
-        <th>
-          Total time
-        </th>
-
-        <th>
-          Cooking time
-        </th>
-
-        <th>
-          Image
-        </th>
-
-        <th>
-          Author
-        </th>
-        <th>
-        </th>
-      </tr>
-
-      <% @matching_cookbooks.each do |a_cookbook| %>
-      <tr>
-        <td>
-          <%= a_cookbook.recipe.name %>
-        </td>
-
-        <td>
-          <%= a_cookbook.recipe.total_time %>
-        </td>
-
-        <td>
-          <%= a_cookbook.recipe.cooking_time %>
-        </td>
-
-        <td>
-          <%= a_cookbook.recipe.image %>
-        </td>
-
-        <td>
-          <a href="/users/<%= a_cookbook.recipe.author_user_id %>">  
-            <%= a_cookbook.recipe.author.full_name %> 
-          </a>
-
-        </td>
-
-
-        <td>
-          <a href="/recipes/<%= a_cookbook.recipe_id %>">
-            Show details
-          </a>
-        </td>
-      </tr>
-      <% end %>
-    </table>
-  </div>
-</div>
-
-<hr>
+    <div>
+      <div>
+        <table>
+          <tr>
+            <th>
+            </th>
+            <th>
+              Recipe
+            </th>
+            <th>
+              Total time
+            </th>
+            <th>
+              Cooking time
+            </th>
+            <th>
+              Image
+            </th>
+            <th>
+              Author
+            </th>
+            <th>
+            </th>
+          </tr>
+          <% @matching_cookbooks.each do |a_cookbook| %>
+            <tr>
+              <td>
+                <% if a_cookbook != nil %>
+                  <a href="/delete_cookbook/<%= a_cookbook.id %>">
+                    Remove this recipe from your cookbook
+                  </a>
+                <% else %>
+                  <form action="/insert_cookbook/<%= a_cookbook.id %>" method="post">
+                    <input type="hidden" name="query_recipe_id" value="<%= a_cookbook.recipe_id %>">
+                    <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                    <button> Save this recipe to your cookbook </button>
+                  </form>
+                <% end %>
+              </td>
+              <td>
+                <%= a_cookbook.recipe.name %>
+              </td>
+              <td>
+                <%= a_cookbook.recipe.total_time %>
+              </td>
+              <td>
+                <%= a_cookbook.recipe.cooking_time %>
+              </td>
+              <td>
+                <%= a_cookbook.recipe.image %>
+              </td>
+              <td>
+                <a href="/users/<%= a_cookbook.recipe.author_user_id %>">
+                  <%= a_cookbook.recipe.author.full_name %>
+                </a>
+              </td>
+              <td>
+                <a href="/recipes/<%= a_cookbook.recipe_id %>">
+                  Recipe details
+                </a>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+    <hr>

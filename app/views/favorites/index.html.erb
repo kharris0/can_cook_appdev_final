@@ -5,20 +5,16 @@
     </h1>
   </div>
 </div>
-
 <hr>
-
 <div>
   <div>
     <h2>
       Add food to your fridge and pantry!
     </h2>
-
     <form action="/insert_favorite" method="post">
       <div>
         <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
       </div>
-
       <div>
         <label for="food_id_box">
           Type to add foods or choose from the list:
@@ -26,22 +22,20 @@
         <input list="ingredients" name="query_ingredient_id" id="ingredient_id_box">
         <datalist id="ingredients">
           <option value="Food 1">
-          <option value="Food 2">
-          <option value="Food 3">
-        </datalist>
-        <%# <label for="recipe_submit_button"> Add Recipe </label>
+            <option value="Food 2">
+              <option value="Food 3">
+              </datalist>
+              <%# <label for="recipe_submit_button"> Add Recipe </label>
         <input type="submit" id="recipe_submit_button" name="query_recipe_id"> %>
-        <%# <input type="text" id="recipe_id_box" name="query_recipe_id"> %>
-
+              <%# <input type="text" id="recipe_id_box" name="query_recipe_id"> %>
+            </div>
+            <button>
+              Add food!
+            </button>
+          </form>
+        </div>
       </div>
-      <button>
-        Add food!
-      </button>
-    </form>
-  </div>
-</div>
-
-<%# <form action="/insert_favorite" method="post">
+      <%# <form action="/insert_favorite" method="post">
   <label for="food">Choose what foods you currently have in your fridge/pantry:</label>
   <input list="foods" name="food" id="food">
   <datalist id="foods">
@@ -53,45 +47,57 @@
   </datalist>
   <input type="submit" id="ingredient_id_box" name="query_ingredient_id">
 </form> %>
-
-
-<hr>
-<div>
-  <div>
-    <table>
-      <tr>
-        <th>
-          ID
-        </th>
-
-        <th>
-          Ingredient
-        </th>
-
-        <th>
-        </th>
-      </tr>
-
-      <% @list_of_favorites.each do |a_favorite| %>
-      <tr>
-        <td>
-          <%= a_favorite.ingredient.id %>
-        </td>
-
-        <td>
-          <%= a_favorite.ingredient.name.capitalize %>
-        </td>
-
-
-        <td>
-          <a href="/ingredients/<%= a_favorite.ingredient_id %>">
-            See what you can cook with <%= a_favorite.ingredient.name %>
-          </a>
-        </td>
-      </tr>
+      <br>
+      <br>
+      <h2>
+        Recipes that you can cook based on whats in your fridge
+      </h2>
+      <h3>
+        Add a table with the recipes that someone could potentially cook based on whats in their fridge (irrespective of whether they have favorited the recipe yet or not). Use Ingredient_in_recipe for this. 
+      </h3>
+      <br>
+      <br>
+      <br>
+      <br>
+      <% if @list_of_favorites == nil %>
+        <h2>
+          Oops! Your fridge is empty. <a href="/ingredients"> Go grocery shopping! </a>
+        </h2>
+      <% else %>
+        <h2>
+          Foods in your fridge
+        </h2>
+        <hr>
+        <div>
+          <div>
+            <table>
+              <tr>
+                <th>
+                  ID
+                </th>
+                <th>
+                  Ingredient
+                </th>
+                <th>
+                </th>
+              </tr>
+              <% @list_of_favorites.each do |a_favorite| %>
+                <tr>
+                  <td>
+                    <%= a_favorite.ingredient_id %>
+                  </td>
+                  <td>
+                    <%= a_favorite.ingredient.name %>
+                  </td>
+                  <td>
+                    <a href="/ingredients/<%= a_favorite.ingredient_id %>">
+                      See what you can cook with <%= a_favorite.ingredient.name %>
+                    </a>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        </div>
+        <hr>
       <% end %>
-    </table>
-  </div>
-</div>
-
-<hr>

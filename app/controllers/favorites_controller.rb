@@ -1,6 +1,6 @@
 class FavoritesController < ApplicationController
   def index
-    matching_favorites = Favorite.all
+    matching_favorites = @current_user.favorites
 
     @list_of_favorites = matching_favorites.order({ :created_at => :desc })
 
@@ -24,9 +24,9 @@ class FavoritesController < ApplicationController
 
     if the_favorite.valid?
       the_favorite.save
-      redirect_to("/favorites", { :notice => "Favorite created successfully." })
+      redirect_to("/favorites/index", { :notice => "Food successfully added to your fridge." })
     else
-      redirect_to("/favorites", { :notice => "Favorite failed to create successfully." })
+      redirect_to("/favorites/index", { :notice => "Food not successfully added to your fridge." })
     end
   end
 
@@ -51,6 +51,6 @@ class FavoritesController < ApplicationController
 
     the_favorite.destroy
 
-    redirect_to("/favorites", { :notice => "Favorite deleted successfully."} )
+    redirect_to("/frige/index", { :notice => "Favorite deleted successfully."} )
   end
 end

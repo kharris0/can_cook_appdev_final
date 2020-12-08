@@ -22,12 +22,20 @@ class IngredientInRecipesController < ApplicationController
     the_ingredient_in_recipe.ingredient_id = params.fetch("query_ingredient_id")
     the_ingredient_in_recipe.recipe_id = params.fetch("query_recipe_id")
 
-    if the_ingredient_in_recipe.valid?
-      the_ingredient_in_recipe.save
-      redirect_to("/ingredient_in_recipes", { :notice => "Ingredient in recipe created successfully." })
-    else
-      redirect_to("/ingredient_in_recipes", { :notice => "Ingredient in recipe failed to create successfully." })
+    
+    if the_ingredient_in_recipe.ingredient_id != 
+
+
+
+      if the_ingredient_in_recipe.valid?
+        the_ingredient_in_recipe.save
+        redirect_to("/ingredient_in_recipes", { :notice => "Ingredient in recipe created successfully." })
+      else
+        redirect_to("/ingredient_in_recipes", { :notice => "Ingredient in recipe failed to create successfully." })
+      end
+
     end
+
   end
 
   def update

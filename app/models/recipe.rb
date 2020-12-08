@@ -7,7 +7,7 @@
 #  image          :string
 #  instructions   :string
 #  name           :string
-#  total_time     :time
+#  total_time     :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  author_user_id :integer
