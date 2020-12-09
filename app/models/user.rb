@@ -31,5 +31,6 @@ class User < ApplicationRecord
     return assembled_name
   end
 
+  
 
 end
