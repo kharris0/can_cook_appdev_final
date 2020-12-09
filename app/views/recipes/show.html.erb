@@ -15,7 +15,7 @@
           </form>
         <% else %>
           <a href="/delete_cookbook/<%= the_cookbook.id %>">
-            Remove this recipe from your cookbook
+            Remove recipe from your cookbook
           </a>
         <% end %>
       </td>
@@ -59,58 +59,88 @@
       <dd>
         <%= @the_recipe.cooking_time %> mins
       </dd>
-      <dt>
-        Instructions
-      </dt>
-      <dd>
-        <%= @the_recipe.instructions %>
-      </dd>
-      <dt>
-        Created at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_recipe.created_at) %> ago
-      </dd>
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_recipe.updated_at) %> ago
-      </dd>
-    </dl>
+
+
+
+
+
+
+      <% if @the_recipe.ingredients != nil %>
+        <dt> 
+          Ingredients: 
+        </dt>
+        <% @the_recipe.ingredients.each do |a_ingredient| %>
+          <dd>
+            <a href="/ingredients/<%= a_ingredient.id %>">
+              <%= a_ingredient.name %> 
+            </a>
+          </dd>
+          <% end %>
+      <% else %>
+        <dt>
+          Please add ingredients to your recipe below. 
+        </dt>
+      <% end %>
+
+        <dt>
+          Instructions
+        </dt>
+        <dd>
+          <%= @the_recipe.instructions %>
+        </dd>
+        <dt>
+          Created at
+        </dt>
+        <dd>
+          <%= time_ago_in_words(@the_recipe.created_at) %> ago
+        </dd>
+        <dt>
+          Updated at
+        </dt>
+        <dd>
+          <%= time_ago_in_words(@the_recipe.updated_at) %> ago
+        </dd>
+      </dl>
+    </div>
   </div>
-</div>
-<hr>
-<div>
-  <% if @current_user != nil %>
-    <% if @the_recipe.author.id == @current_user.id %>
-      <div>
-        <form action="/insert_ingredient_in_recipe" method="post">
-          <div>
-            <input type="hidden" name="query_recipe_id" value="<%= @the_recipe.id %>">
-          </div>
-          <div>
-            <label for="ingredient_id_box">
-              Type to add ingredients or choose from the list:
-            </label>
-            <input list="ingredients" name="query_ingredient_id" id="ingredient_in_recipe_id_box">
-            <datalist id="ingredients">
-            <% Ingredient.all.order({ :name => :asc }).each do |a_ingredient| %>
-              <option value="<%= a_ingredient.id %>">
-                <%= a_ingredient.name %>
-              </option>
-              <% end %>
+  <hr>
+  <div>
+    <% if @current_user != nil %>
+      <% if @the_recipe.author.id == @current_user.id %>
+        <div>
+
+          <form action="/insert_ingredient_in_recipe" method="post">
+            <div>
+              <input type="hidden" name="query_recipe_id" value="<%= @the_recipe.id %>">
+            </div>
+            <div>
+              <label for="ingredient_id_box">
+                Type to add ingredients or choose from the list:
+              </label>
+              <input list="ingredients" name="query_ingredient_id" id="ingredient_in_recipe_id_box">
+              <datalist id="ingredients">
+                <% Ingredient.all.order({ :name => :asc }).each do |a_ingredient| %>
+                  <option value="<%= a_ingredient.id %>">
+                    <%= a_ingredient.name %>
+                  </option>
+                <% end %>
               </datalist>
+
               <button>
                 Add ingredient
               </button>
             </form>
 
           </div>
+
+
           <h2>
             Edit recipe
           </h2>
           <form action="/modify_recipe/<%= @the_recipe.id %>"  method="post" >
+            <div>
+              <input type="hidden" name="query_author_user_id" value="<%= @the_recipe.author_user_id %>">
+            </div>
             <div>
               <label for="name_box">
                 Name
@@ -133,7 +163,7 @@
               <label for="total_time_box">
                 Total time
               </label>
-              <input type="time" id="total_time_box" name="query_total_time" value="<%= @the_recipe.total_time %>">
+              <input type="text" id="total_time_box" name="query_total_time" value="<%= @the_recipe.total_time %>">
             </div>
             <div>
               <label for="cooking_time_box">
@@ -141,18 +171,12 @@
               </label>
               <input type="text" id="cooking_time_box" name="query_cooking_time" value="<%= @the_recipe.cooking_time %>">
             </div>
-            <div>
-              <label for="author_user_id_box">
-                Author user
-              </label>
-              <input type="text" id="author_user_id_box" name="query_author_user_id" value="<%= @the_recipe.author_user_id %>">
-            </div>
             <button>
               Update recipe
             </button>
           </form>
         </div>
+      <% end %>
     <% end %>
-        <% end %>
     <div>
       <hr>

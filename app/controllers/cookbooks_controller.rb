@@ -4,7 +4,7 @@ class CookbooksController < ApplicationController
 
     @list_of_cookbooks = matching_cookbooks.order({ :created_at => :desc })
 
-    render({ :template => "cookbooks/index.html.erb" })
+    redirect_to("/users")
   end
 
   def show

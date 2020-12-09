@@ -1,71 +1,29 @@
 <div>
   <div>
     <h1>
-      Ingredient #<%= @the_ingredient.id %> details
+      <%= @the_ingredient.name.capitalize %>
     </h1>
 
     <div>
       <div>
         <a href="/ingredients">
-          Go back
+          All Ingredients
         </a>
       </div>
 
-      <div>
-        <a href="/delete_ingredient/<%= @the_ingredient.id %>">
-          Delete ingredient
-        </a>
-      </div>
-    </div>
-
-    <dl>
-      <dt>
-        Name
-      </dt>
-      <dd>
-        <%= @the_ingredient.name %>
-      </dd>
-
-      <dt>
-        Created at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_ingredient.created_at) %> ago
-      </dd>
-
-      <dt>
-        Updated at
-      </dt>
-      <dd>
-        <%= time_ago_in_words(@the_ingredient.updated_at) %> ago
-      </dd>
-    </dl>
-  </div>
-</div>
-
-<hr>
-
-
-<div>
-  <div>
-    <h2>
-      Edit ingredient
-    </h2>
-
-    <form action="/modify_ingredient/<%= @the_ingredient.id %>"  method="post" >
-      <div>
-        <label for="name_box">
-          Name
-        </label>
-
-        <input type="text" id="name_box" name="query_name" value="<%= @the_ingredient.name %>">
-      </div>
-
-      <button>
-        Update ingredient
-      </button>
-    </form>
-  </div>
-</div>
-
-<hr>
+  <% if @current_user != nil %>
+    <td>
+      <% the_favorite = @current_user.ingredients.where({ :id => @the_ingredient.id }).at(0) %>
+        <% if the_favorite != nil %>
+            <a href="/delete_favorite/<%= the_favorite.id %>">
+            Remove from fridge
+            </a>
+        <% else %>
+          <form action="/insert_favorite" method="post">
+            <input type="hidden" name="query_ingredient_id" value="<%= @the_ingredient.id %>">
+            <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+            <button>Add to fridge</button>
+            </form>
+        <% end %>
+      </td>
+    <% end %>

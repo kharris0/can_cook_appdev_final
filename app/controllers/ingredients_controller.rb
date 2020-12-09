@@ -8,8 +8,10 @@ class IngredientsController < ApplicationController
   end
 
   def show
-    the_id = params.fetch("path_id")
+    all_ingredients = Ingredient.all
+    @list_of_ingredients = all_ingredients.order({ :name => :asc })
 
+    the_id = params.fetch("path_id")
     matching_ingredients = Ingredient.where({ :id => the_id })
 
     @the_ingredient = matching_ingredients.at(0)

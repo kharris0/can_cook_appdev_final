@@ -10,9 +10,9 @@ class FavoritesController < ApplicationController
   def show
     the_id = params.fetch("path_id")
 
-    matching_favorites = Favorite.where({ :user_id => the_id })
+    @matching_favorites = Favorite.where({ :ingredient_id => the_id })
 
-    @the_favorite = matching_favorites.at(0)
+    @the_favorite = @matching_favorites.at(0)
 
     render({ :template => "favorites/show.html.erb" })
   end
@@ -24,9 +24,9 @@ class FavoritesController < ApplicationController
 
     if the_favorite.valid?
       the_favorite.save
-      redirect_to("/favorites/index", { :notice => "Food successfully added to your fridge." })
+      redirect_to("/fridge", { :notice => "Food successfully added to your fridge." })
     else
-      redirect_to("/favorites/index", { :notice => "Food not successfully added to your fridge." })
+      redirect_to("/fridge", { :notice => "Food not successfully added to your fridge." })
     end
   end
 
@@ -39,18 +39,18 @@ class FavoritesController < ApplicationController
 
     if the_favorite.valid?
       the_favorite.save
-      redirect_to("/favorites/#{the_favorite.id}", { :notice => "Favorite updated successfully."} )
+      redirect_to("/favorites/#{the_favorite.id}", { :notice => "Food updated in your fridge."} )
     else
-      redirect_to("/favorites/#{the_favorite.id}", { :alert => "Favorite failed to update successfully." })
+      redirect_to("/favorites/#{the_favorite.id}", { :alert => "Food failed to update in your fridge." })
     end
   end
 
   def destroy
     the_id = params.fetch("path_id")
-    the_favorite = Favorite.where({ :id => the_id }).at(0)
+    @the_favorite = Favorite.where({ :ingredient_id => the_id }).at(0)
 
-    the_favorite.destroy
+    @the_favorite.destroy
 
-    redirect_to("/frige/index", { :notice => "Favorite deleted successfully."} )
+    redirect_to("/fridge", { :notice => "Food removed from fridge."} )
   end
 end

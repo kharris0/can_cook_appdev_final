@@ -1,5 +1,5 @@
 <h1> <%= @the_user.full_name %> </h1>
-<h1> <%= @the_user.first_name.capitalize %>'s Cookbook</h1>
+<h2> <%= @the_user.first_name.capitalize %>'s Cookbook</h2>
 <hr>
 <div>
   <div>
@@ -46,7 +46,48 @@
     </table>
   </div>
 </div>
-<h1> Recipes written by <%= @the_user.first_name.capitalize %> </h1>
+
+<hr>
+
+<% if @current_user != nil %>
+  <% if @current_user.id == @the_user.id %>
+        <div>
+          <form action="/insert_cookbook" method="post">
+            <div>
+              <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+            </div>
+            <div>
+              <h3> 
+                Add another recipe to your cookbook 
+              </h3>
+              <label for="recipe_id_box">
+                Recipe
+              </label>
+
+              <select id="recipe_id_box" name="query_recipe_id">
+              <% Recipe.all.order({ :name => :asc }).each do |a_recipe| %>
+                <option value="<%= a_recipe.id %>">
+                    <%= a_recipe.name.capitalize %>
+                  </option>
+                <% end %>
+              </select>
+              <button>
+                Add Recipe
+              </button>
+            </form>
+            </div>
+          <% end %>
+        <% end %>
+
+
+
+
+
+
+
+
+
+<h2> Recipes written by <%= @the_user.first_name.capitalize %> </h2>
 <hr>
 <div>
   <div>
