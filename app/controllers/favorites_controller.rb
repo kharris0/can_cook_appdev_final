@@ -10,7 +10,7 @@ class FavoritesController < ApplicationController
   def show
     the_id = params.fetch("path_id")
 
-    @matching_favorites = Favorite.where({ :ingredient_id => the_id })
+    matching_favorites = Favorite.where({ :id => the_id })
 
     @the_favorite = @matching_favorites.at(0)
 
@@ -24,9 +24,9 @@ class FavoritesController < ApplicationController
 
     if the_favorite.valid?
       the_favorite.save
-      redirect_to("/fridge", { :notice => "Food successfully added to your fridge." })
+      redirect_to("/users/#{the_favorite.user_id}", { :notice => "Food added to fridge successfully." })
     else
-      redirect_to("/fridge", { :notice => "Food not successfully added to your fridge." })
+      redirect_to("/users#{the_favorite.user_id}", { :notice => "Food failed to add to fridge successfully." })
     end
   end
 
@@ -39,9 +39,9 @@ class FavoritesController < ApplicationController
 
     if the_favorite.valid?
       the_favorite.save
-      redirect_to("/favorites/#{the_favorite.id}", { :notice => "Food updated in your fridge."} )
+      redirect_to("/users/#{the_favorite..user_id}", { :notice => "Food updated in your fridge." })
     else
-      redirect_to("/favorites/#{the_favorite.id}", { :alert => "Food failed to update in your fridge." })
+      redirect_to("/users/#{the_favorite.user_id}", { :alert => "Food failed to update in your fridge." })
     end
   end
 

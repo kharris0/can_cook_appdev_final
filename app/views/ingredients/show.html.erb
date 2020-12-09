@@ -1,7 +1,7 @@
 <div>
   <div>
     <h1>
-      <%= @the_ingredient.name.capitalize %>
+      Recipes with <%= @the_ingredient.name.capitalize %>
     </h1>
 
     <div>
@@ -27,3 +27,94 @@
         <% end %>
       </td>
     <% end %>
+
+
+
+
+<hr>
+
+  <div>
+    <table border="1">
+      <tr>
+        <th>
+        </th>
+        <th>
+          Name
+        </th>
+        <th>
+          Total time
+        </th>
+        <th>
+          Cooking time
+        </th>
+        <th>
+          Image
+        </th>
+        <th>
+        
+        </th>
+        <th>
+          Author
+        </th>
+      </tr>
+      <tr>
+
+        <% @the_ingredient.recipes.each do |a_recipe| %>
+          <% if @current_user == nil %>
+            <td>
+              <a href="/user_sign_in">Sign in to add to cookbook</a>
+            </td>
+          <%else%>
+            <td>
+              <% the_cookbook = @current_user.cookbooks.where({ :recipe_id => a_recipe.id }).at(0) %>
+              <% if the_cookbook == nil %>
+                <form action="/insert_cookbook" method="post">
+                  <input type="hidden" name="query_recipe_id" value="<%= a_recipe.id %>">
+                  <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                  <button>Save recipe to your cookbook</button>
+                </form>
+              <% else %>
+                <a href="/delete_cookbook/<%= the_cookbook.id %>">
+                  Remove recipe from your cookbook
+                </a>
+              <% end %>
+            </td>
+          <% end %>
+          <td>
+            <%= a_recipe.name %>
+          </td>
+
+          <td>
+            <%= a_recipe.total_time %>
+          </td>
+
+          <td>
+            <%= a_recipe.cooking_time %>
+          </td>
+
+          <td>
+            <%= a_recipe.image %>
+          </td>
+
+          <td>
+            <a href="/recipes/<%= a_recipe.id %>">
+              Recipe details
+            </a>
+          </td>
+
+          <td>
+            <a href="/users/<%= a_recipe.author_user_id %>">
+              <%= a_recipe.author.full_name.capitalize %>
+            </a>
+          </td>
+
+        </tr>
+      <% end %>
+    </table>
+  </div>
+
+
+
+
+
+

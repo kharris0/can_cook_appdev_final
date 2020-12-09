@@ -1,135 +1,216 @@
-<h1> <%= @the_user.full_name %> </h1>
-<h2> <%= @the_user.first_name.capitalize %>'s Cookbook</h2>
-<hr>
-<div>
+<% if @current_user.id == @the_user.id %>
+  <h1> Your Kitchen </h1>
+<% else %>
+  <h1> <%= @the_user.full_name %>'s Kitchen </h1>
+<% end %>
+
+<br>
+
+<% if @current_user.id == @the_user.id %>
+  <h2> Fridge </h2>
   <div>
-    <table>
-      <tr>
-        <th>
-        </th>
-        <th>
-          Recipe
-        </th>
-        <th>
-          Author
-        </th>
-        <th>
-        </th>
-      </tr>
-      <% @the_user.cookbooks.each do |recipe_in_cookbook| %>
+    <form action="/insert_favorite" method="post">
+      <div>
+        <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+      </div>
+      <div>
+        <label for="ingredient_id_box">
+          Type to add food or choose from the list:
+        </label>
+        <input list="ingredients" name="query_ingredient_id" id="ingredient_id_box">
+        <datalist id="ingredients">
+          <% Ingredient.all.order({ :name => :asc }).each do |a_ingredient| %>
+            <option value="<%= a_ingredient.id %>">
+              <%= a_ingredient.name %>
+            </option>
+          <% end %>
+        </datalist>
+        <button>
+          Add food
+        </button>
+      </form>
+    </div>
+  <% end %>
+
+  <% if @current_user.favorites == nil %>
+    <h2>
+      Oops! Your fridge is empty. Go grocery shopping to <a href="/ingredients">stock up! </a>
+    </h2>
+  <% else %>
+    <br>
+    <div>
+      <div>
+        <table border="1">
+          <tr>
+            <th>
+            
+            </th>
+            <th>
+              Ingredient
+            </th>
+            <th>
+            </th>
+          </tr>
+            <% @current_user.ingredients.each do |a_ingredient| %>
+              <% if @current_user == nil %>
+                <td>
+                  <a href="/user_sign_in">Sign in to add to fridge</a>
+                </td>
+              <% else %>
+                <td>
+                  <% the_favorite = @current_user.favorites.where({ :ingredient_id => a_ingredient.id }).at(0) %>
+                  <% if the_favorite == nil %>
+                    <form action="/insert_favorite" method="post">
+                      <input type="hidden" name="query_ingredient_id" value="<%= a_ingredient.id %>">
+                      <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                      <button>Add to fridge</button>
+                    </form>
+                  <% else %>
+                    <a href="/delete_favorite/<%= the_favorite.id %>">
+                      Removie from fridge
+                    </a>
+                  <% end %>
+                </td>
+              <% end %>
+              <td>
+                <%= a_ingredient.name %>
+              </td>
+
+              <td>
+                Cook with <a href="/ingredients/<%=a_ingredient.id.to_s %>"> <%=a_ingredient.name.capitalize %> </a>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+    <br>
+    <br>
+    <hr>
+  <%end%>
+  <h2> Cookbook </h2>
+  <div>
+    <div>
+      <table border="1">
         <tr>
-          <td>
-            <% if recipe_in_cookbook != nil %>
-              <a href="/delete_cookbook/<%= recipe_in_cookbook.id %>"> 
-                Remove this recipe from your cookbook
-              </a>
-            <% else %>
-              <form action="/insert_cookbook/<%= recipe_in_cookbook.id %>" method="post">
-                <input type="hidden" name="query_recipe_id" value="<%= recipe_in_cookbook.recipe_id %>">
-                <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
-                <button> Save this recipe to your cookbook </button>
-              </form>
-            <% end %>
-          </td>
-          <td>
-            <a href="/recipes/<%= recipe_in_cookbook.recipe_id %>">
-              <%= recipe_in_cookbook.recipe.name %>
-            </a>
-          </td>
-          <td>
-            <a href="/users/<%= recipe_in_cookbook.recipe.author_user_id %>">
-              <%= recipe_in_cookbook.recipe.author.full_name %>
-            </a>
-          </td>
+          <th>
+          </th>
+          <th>
+            Recipe
+          </th>
+          <th>
+            Author
+          </th>
+          <th>
+          </th>
         </tr>
-      <% end %>
-    </table>
+        <% @the_user.cookbooks.each do |recipe_in_cookbook| %>
+          <tr>
+            <td>
+              <% if recipe_in_cookbook != nil %>
+                <a href="/delete_cookbook/<%= recipe_in_cookbook.id %>">
+                  Remove this recipe from your cookbook
+                </a>
+              <% else %>
+                <form action="/insert_cookbook/<%= recipe_in_cookbook.id %>" method="post">
+                  <input type="hidden" name="query_recipe_id" value="<%= recipe_in_cookbook.recipe_id %>">
+                  <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                  <button> Save this recipe to your cookbook </button>
+                </form>
+              <% end %>
+            </td>
+            <td>
+              <a href="/recipes/<%= recipe_in_cookbook.recipe_id %>">
+                <%= recipe_in_cookbook.recipe.name %>
+              </a>
+            </td>
+            <td>
+              <a href="/users/<%= recipe_in_cookbook.recipe.author_user_id %>">
+                <%= recipe_in_cookbook.recipe.author.full_name %>
+              </a>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
   </div>
-</div>
-
-<hr>
-
-<% if @current_user != nil %>
-  <% if @current_user.id == @the_user.id %>
-        <div>
-          <form action="/insert_cookbook" method="post">
-            <div>
-              <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
-            </div>
-            <div>
-              <h3> 
-                Add another recipe to your cookbook 
-              </h3>
-              <label for="recipe_id_box">
-                Recipe
-              </label>
-
-              <select id="recipe_id_box" name="query_recipe_id">
+  <br>
+  <% if @current_user != nil %>
+    <% if @current_user.id == @the_user.id %>
+      <div>
+        <form action="/insert_cookbook" method="post">
+          <div>
+            <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+          </div>
+          <div>
+            <h3>
+              Add another recipe to your cookbook 
+            </h3>
+            <label for="recipe_id_box">
+              Recipe
+            </label>
+            <select id="recipe_id_box" name="query_recipe_id">
               <% Recipe.all.order({ :name => :asc }).each do |a_recipe| %>
                 <option value="<%= a_recipe.id %>">
-                    <%= a_recipe.name.capitalize %>
-                  </option>
-                <% end %>
-              </select>
-              <button>
-                Add Recipe
-              </button>
-            </form>
-            </div>
-          <% end %>
-        <% end %>
-
-
-
-
-
-
-
-
-
-<h2> Recipes written by <%= @the_user.first_name.capitalize %> </h2>
-<hr>
-<div>
-  <div>
-    <table>
-      <tr>
-        <th>
-          Recipe
-        </th>
-        <th>
-          Total time
-        </th>
-        <th>
-          Cooking time
-        </th>
-        <th>
-          Image
-        </th>
-        <th>
-        </th>
-      </tr>
-      <% @the_user.authored_recipes.each do |a_recipe| %>
-        <tr>
-          <td>
-            <%= a_recipe.name %>
-          </td>
-          <td>
-            <%= a_recipe.total_time %>
-          </td>
-          <td>
-            <%= a_recipe.cooking_time %>
-          </td>
-          <td>
-            <%= a_recipe.image %>
-          </td>
-          <td>
-            <a href="/recipes/<%= a_recipe.id %>">
-              Recipe details
-            </a>
-          </td>
-        </tr>
+                  <%= a_recipe.name.capitalize %>
+                </option>
+              <% end %>
+            </select>
+            <button>
+              Add Recipe
+            </button>
+          </form>
+        </div>
       <% end %>
-    </table>
-  </div>
-</div>
-<hr>
+    <% end %>
+    <br>
+    <% if @current_user.id == @the_user.id %>
+      <h2> Recipes you've written </h2>
+    <% else %>
+      <h2> Recipes <%= @the_user.full_name %>'s written </h2>
+    <% end %>
+    <div>
+      <div>
+        <table border="1">
+          <tr>
+            <th>
+              Recipe
+            </th>
+            <th>
+              Total time
+            </th>
+            <th>
+              Cooking time
+            </th>
+            <th>
+              Image
+            </th>
+            <th>
+            </th>
+          </tr>
+          <% @the_user.authored_recipes.each do |a_recipe| %>
+            <tr>
+              <td>
+                <%= a_recipe.name %>
+              </td>
+              <td>
+                <%= a_recipe.total_time %>
+              </td>
+              <td>
+                <%= a_recipe.cooking_time %>
+              </td>
+              <td>
+                <%= a_recipe.image %>
+              </td>
+              <td>
+                <a href="/recipes/<%= a_recipe.id %>">
+                  Recipe details
+                </a>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+    <hr>
+    <br>

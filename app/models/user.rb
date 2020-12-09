@@ -31,12 +31,5 @@ class User < ApplicationRecord
     return assembled_name
   end
 
-  # Not sure if the below method actually works. 
-  def cookbooks
-    my_id = self.id
-    matching_cookbooks = Cookbook.where({ :user_id => my_id })
-    return matching_cookbooks
-  end
-
 
 end

@@ -5,11 +5,9 @@
     </h1>
   </div>
 </div>
-<hr>
-<hr>
 <div>
   <div>
-    <table>
+    <table border="1">
       <tr>
         <th>
         </th>
@@ -34,6 +32,9 @@
       <tr>
         <% @list_of_recipes.each do |a_recipe| %>
           <% if @current_user == nil %>
+            <td>
+              <a href="/user_sign_in">Sign in to add to cookbook</a>
+            </td>
           <%else%>
             <td>
               <% the_cookbook = @current_user.cookbooks.where({ :recipe_id => a_recipe.id }).at(0) %>

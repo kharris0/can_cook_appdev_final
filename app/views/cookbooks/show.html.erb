@@ -67,6 +67,8 @@
             </th>
             <th>
             </th>
+            <th>
+            </th>
           </tr>
           <% @matching_cookbooks.each do |a_cookbook| %>
             <tr>
@@ -100,6 +102,13 @@
                   <%= a_cookbook.recipe.author.full_name %>
                 </a>
               </td>
+              
+              
+              <td>
+                <%= a_cookbook.can_cook? %>
+              </td>
+
+
               <td>
                 <a href="/recipes/<%= a_cookbook.recipe_id %>">
                   Recipe details

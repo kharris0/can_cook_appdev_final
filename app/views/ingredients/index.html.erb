@@ -1,7 +1,7 @@
 <div>
   <div>
     <h1>
-      List of all ingredients
+      All Ingredients 
     </h1>
   </div>
 </div>
@@ -33,10 +33,10 @@
 <hr>
 <div>
   <div>
-    <table>
+    <table border="1">
       <tr>
         <th>
-          ID
+          
         </th>
 
         <th>
@@ -57,8 +57,29 @@
 
       <% @list_of_ingredients.each do |an_ingredient| %>
       <tr>
+        <% if @current_user != nil %>
         <td>
-          <%= an_ingredient.id %>
+          <% the_favorite = @current_user.ingredients.where({ :id => an_ingredient.id }).at(0) %>
+            <% if the_favorite != nil %>
+                <a href="/delete_favorite/<%= the_favorite.id %>">
+                Remove from fridge
+                </a>
+            <% else %>
+              <form action="/insert_favorite" method="post">
+                <input type="hidden" name="query_ingredient_id" value="<%= an_ingredient.id %>">
+                <input type="hidden" name="query_user_id" value="<%= @current_user.id %>">
+                <button>Add to fridge</button>
+                </form>
+            <% end %>
+          </td>
+        <% else %>
+          <td>
+            <a href="/user_sign_in">Sign in to add to fridge
+          </td> 
+        <% end %>
+
+
+
         </td>
 
         <td>
@@ -74,7 +95,7 @@
 
         <td>
           <a href="/ingredients/<%= an_ingredient.id %>">
-            Show details
+            Food details
           </a>
         </td>
       </tr>

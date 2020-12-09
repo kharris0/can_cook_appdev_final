@@ -1,8 +1,10 @@
 class IngredientsController < ApplicationController
+  skip_before_action(:force_user_sign_in, { :only => [:index, :show] })
+
   def index
     matching_ingredients = Ingredient.all
 
-    @list_of_ingredients = matching_ingredients.order({ :created_at => :desc })
+    @list_of_ingredients = matching_ingredients.order({ :name => :asc })
 
     render({ :template => "ingredients/index.html.erb" })
   end
@@ -12,9 +14,9 @@ class IngredientsController < ApplicationController
     @list_of_ingredients = all_ingredients.order({ :name => :asc })
 
     the_id = params.fetch("path_id")
-    matching_ingredients = Ingredient.where({ :id => the_id })
+    @matching_ingredients = Ingredient.where({ :id => the_id })
 
-    @the_ingredient = matching_ingredients.at(0)
+    @the_ingredient = @matching_ingredients.at(0)
 
     render({ :template => "ingredients/show.html.erb" })
   end

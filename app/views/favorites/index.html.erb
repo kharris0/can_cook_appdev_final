@@ -18,7 +18,7 @@
           </div>
           <div>
             <label for="ingredient_id_box">
-              Type to add foodor choose from the list:
+              Type to add food or choose from the list:
             </label>
             <input list="ingredients" name="query_ingredient_id" id="ingredient_id_box">
             <datalist id="ingredients">
@@ -46,7 +46,7 @@
         <hr>
         <div>
           <div>
-            <table>
+            <table border="1">
               <tr>
                 <th>
                   ID
@@ -57,18 +57,26 @@
                 <th>
                 </th>
               </tr>
-              <% @list_of_favorites.each do |a_favorite| %>
+              <% @current_user.favorites.each do |a_favorite| %>
                 <tr>
                   <td>
-                    <%= a_favorite.ingredient_id %>
+                    <% if a_favorite == nil %>
+                      <form action="/insert_favorite" method="post">
+                        <input type="hidden" name="query_ingredient_id" value="<%= a_favorite.ingredient_id %>">
+                        <input type="hidden" name="query_user_id" value="<%= a_favorite.user_id %>">
+                        <button> Add to fridge </button>
+                      </form>
+                    <% else %>
+                      <a href="/delete_favorite/<%= a_favorite.id %>">
+                        Remove from fridge 
+                        </a>
+                    <% end %>
                   </td>
                   <td>
                     <%= a_favorite.ingredient.name %>
                   </td>
                   <td>
-                    <a href="/ingredients/<%= a_favorite.ingredient_id.to_s %>">
-                      See what you can cook with <%= a_favorite.ingredient.name %>
-                    </a>
+                    Cook with <a href="/ingredients/<%=a_favorite.ingredient_id.to_s %>"> <%= a_favorite.ingredient.name.capitalize %> </a>
                   </td>
                 </tr>
               <% end %>

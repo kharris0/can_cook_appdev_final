@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>FinalProject</title>
+    <title>Cooking Stock App</title>
     <%= csrf_meta_tags %>
 
     <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
@@ -17,37 +17,60 @@
 
   <body>
     <ul>
-      <li> 
-        <a href="/">Home</a>
-      </li>
-      <li> 
-        <a href="/recipes">Recipes</a>
-      </li>
+
+
 
       <% if @current_user == nil %>
         <li>
           <a href="/user_sign_in">Sign in</a>
         </li>
+
         <li>
           <a href="/user_sign_up">Sign up</a>
         </li>
 
+        <li> 
+        <a href="/recipes">Recipes</a>
+        </li>
+
+        <li>
+          <a href="/ingredients">Ingredients</a>
+        </li>
+
       <% else %>
-        <li>
-          <a href="/fridge">My fridge</a> 
+        <ul>
+          <li> 
+            <a href="/users/<%= @current_user.id %>">
+              <%= @current_user.first_name.capitalize%>'s Dashboard 
+            </a>
+          </li>
+            <ul>
+              <li>
+                <a href="/fridge">My fridge</a> 
+              </li>
+              <li>
+                <a href="/cookbooks/<%= @current_user.id %>">My cookbook</a>
+              </li>
+              <li>
+                <a href="/edit_user_profile">Edit <%= @current_user.first_name.capitalize %>'s profile</a>
+              </li>
+              <li>
+                <a href="/user_sign_out">Sign out</a> 
+              </li>
+            </ul>
+                  <li> 
+        <a href="/recipes">Recipes</a>
         </li>
+
         <li>
-          <a href="/cookbooks/<%= @current_user.id %>">My cookbook</a>
+          <a href="/ingredients">Ingredients</a>
         </li>
-        <li>
+        
+          <li>
           <a href="/users">Users</a>
-        </li>
-        <li>
-          <a href="/edit_user_profile">Edit <%= @current_user.first_name.capitalize %>'s profile</a>
-        </li>
-        <li>
-          <a href="/user_sign_out">Sign out</a> 
-        </li>
+          </li>
+
+
       <% end %>
     </ul>
     <%= notice %>
