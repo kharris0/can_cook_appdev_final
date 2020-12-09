@@ -16,7 +16,7 @@
       <% the_favorite = @current_user.ingredients.where({ :id => @the_ingredient.id }).at(0) %>
         <% if the_favorite != nil %>
             <a href="/delete_favorite/<%= the_favorite.id %>">
-            Remove from fridge
+            Remove <%= @the_ingredient.name.downcase %> from your fridge
             </a>
         <% else %>
           <form action="/insert_favorite" method="post">
@@ -27,9 +27,6 @@
         <% end %>
       </td>
     <% end %>
-
-
-
 
 <hr>
 
@@ -50,12 +47,12 @@
         <th>
           Image
         </th>
-        <th>
-        
-        </th>
+
+
         <th>
           Author
         </th>
+
       </tr>
       <tr>
 
@@ -75,13 +72,13 @@
                 </form>
               <% else %>
                 <a href="/delete_cookbook/<%= the_cookbook.id %>">
-                  Remove recipe from your cookbook
+                  Remove from cookbook
                 </a>
               <% end %>
             </td>
           <% end %>
           <td>
-            <%= a_recipe.name %>
+            <a href="/recipes/<%= a_recipe.id %>"> <%= a_recipe.name %> </a>
           </td>
 
           <td>
@@ -94,12 +91,6 @@
 
           <td>
             <%= a_recipe.image %>
-          </td>
-
-          <td>
-            <a href="/recipes/<%= a_recipe.id %>">
-              Recipe details
-            </a>
           </td>
 
           <td>
